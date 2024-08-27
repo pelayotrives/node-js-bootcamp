@@ -17,8 +17,8 @@ In this repository, you will find my solutions and projects completed during the
 Want to check out my exercises? Clone this repository and navigate to the appropriate folder:
 
 ```bash
-git clone https://github.com/your-username/nodejs-bootcamp-exercises.git
-cd nodejs-bootcamp-exercises/exercises
+git clone https://github.com/pelayotrives/node-js-bootcamp.git
+cd node-js-bootcamp
 ```
 
 ## Notes
