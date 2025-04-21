@@ -1,5 +1,6 @@
 const fs = require('fs');
 const http = require('http');
+const url = require('url');
 
 /** 
  * 
@@ -60,12 +61,37 @@ const http = require('http');
  * It uses the 'http' module to create a server and handle requests.
  * 
  * @note
- * 1. Creates an HTTP server
- * 2. Responds with a simple message for each request
- * 3. Listens on port 3005
+ * 1. It listens on port 3005
+ * 2. It handles different routes: '/', '/overview', '/product', and '/api'.
+ * 3. It reads data from 'data.json' file and serves it as JSON response for the '/api' route.
+ * 4. It sends a 404 error for any other routes.
+ * 5. It sets custom headers for the response.
+ * 6. It uses the 'fs' module to read the JSON file synchronously.
+ * 7. It uses the 'url' module to parse the request URL.
+ * 8. It uses the 'http' module to create a server and handle requests.
+ * 
  */
+
+// The top-level code is executed immediately when the module is loaded. So, it online runs once when the server starts.
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+
 const server = http.createServer((req, res) => {
-    res.end('Server is working!');
+    const pathname = req.url;
+
+    if (pathname === '/' || pathname === '/overview') {
+        res.end('Overview is working!');
+    } else if (pathname === '/product') {
+        res.end('Product is working!');
+    } else if (pathname === '/api') {
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.end(data);
+    } else {
+        res.writeHead(404, {
+            'Content-Type': 'text/html',
+            'Personal-Header': 'NODE-404-TEST-ERROR',
+        })
+        res.end('<h1>Page not found!</h1>');
+    }
 })
 
 server.listen(3005, 'localhost', () => {
